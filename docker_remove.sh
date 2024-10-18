@@ -1,0 +1,2 @@
+docker stop opentelemetry_collector
+docker rm opentelemetry_collector
