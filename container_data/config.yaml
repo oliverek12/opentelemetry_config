@@ -8,50 +8,55 @@ receivers:
 
 processors:
   batch: {}
-  routing:
-    attribute_source: resource
-    from_attribute: bucket
-    default_exporters: [influxdb/bucket1]
-    table:
-      - value: misc_test
-        exporters: [influxdb/misc_test]
-      - value: misc
-        exporters: [influxdb/misc]
+  # routing:
+  #   attribute_source: resource
+  #   from_attribute: bucket
+  #   default_exporters: [influxdb/bucket1]
+  #   table:
+  #     - value: misc_test
+  #       exporters: [influxdb/misc_test]
+  #     - value: misc
+  #       exporters: [influxdb/misc]
 
 exporters:
+  # debug: {}
+
   # default bucket
   influxdb/bucket1:
     endpoint: http://influxdb.o:8086
     token: lgbeBQVlTC8NB_05Te_qPOU0zzHTfnn_-P93LoxO_ZeQo1WU0ow0UEKI90x9B33hBH5a7Vt99WVhtYAubbBIaQ==
     org: org1
-    bucket: bucket1
+    bucket: cid_alpha
 
-  influxdb/misc_test:
-    endpoint: http://influxdb.o:8086
-    token: lgbeBQVlTC8NB_05Te_qPOU0zzHTfnn_-P93LoxO_ZeQo1WU0ow0UEKI90x9B33hBH5a7Vt99WVhtYAubbBIaQ==
-    org: org1
-    bucket: misc_test
+  # influxdb/misc_test:
+  #   endpoint: http://influxdb.o:8086
+  #   token: lgbeBQVlTC8NB_05Te_qPOU0zzHTfnn_-P93LoxO_ZeQo1WU0ow0UEKI90x9B33hBH5a7Vt99WVhtYAubbBIaQ==
+  #   org: org1
+  #   bucket: misc_test
 
-  influxdb/misc:
-    endpoint: http://influxdb.o:8086
-    token: lgbeBQVlTC8NB_05Te_qPOU0zzHTfnn_-P93LoxO_ZeQo1WU0ow0UEKI90x9B33hBH5a7Vt99WVhtYAubbBIaQ==
-    org: org1
-    bucket: misc
+  # influxdb/misc:
+  #   endpoint: http://influxdb.o:8086
+  #   token: lgbeBQVlTC8NB_05Te_qPOU0zzHTfnn_-P93LoxO_ZeQo1WU0ow0UEKI90x9B33hBH5a7Vt99WVhtYAubbBIaQ==
+  #   org: org1
+  #   bucket: misc
 
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch, routing]
+      # processors: [batch, routing]
+      processors: [batch]
       exporters: 
         - influxdb/bucket1
-        - influxdb/misc_test
-        - influxdb/misc
+        # - influxdb/misc_test
+        # - influxdb/misc
     metrics:
       receivers: [otlp]
-      processors: [batch, routing]
+      # processors: [batch, routing]
+      processors: [batch]
       exporters: 
+        # - debug
         - influxdb/bucket1
-        - influxdb/misc_test
-        - influxdb/misc
+        # - influxdb/misc_test
+        # - influxdb/misc
